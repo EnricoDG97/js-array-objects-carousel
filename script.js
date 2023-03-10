@@ -45,3 +45,8 @@ const images = [
     }
 ];
 
+const carouselContainerEl = document.getElementById("carousel-container");
+const imagesContainerEl = document.getElementById("images-container")
+const activeImageElement = document.getElementById("active-image");
+const arrowUpElement = document.getElementById("arrow-up");
+const arrowDownElement = document.getElementById("arrow-down");
