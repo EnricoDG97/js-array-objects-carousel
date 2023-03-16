@@ -50,3 +50,65 @@ const imagesContainerEl = document.getElementById("images-container")
 const activeImageElement = document.getElementById("active-image");
 const arrowUpElement = document.getElementById("arrow-up");
 const arrowDownElement = document.getElementById("arrow-down");
+const slideTitleElement = document.getElementById("slide-title");
+const slideDescriptionEl = document.getElementById("slide-description");
+
+let carouselIndex = 0;
+
+arrowDownElement.addEventListener("click", () => {
+    carouselIndex++;
+    showSlide(images[carouselIndex]);
+    carouselIndex = updateIndex("giu");
+    updateIndex(carouselIndex);
+
+});
+
+arrowUpElement.addEventListener("click", () => {
+    carouselIndex--;
+    showSlide(images[carouselIndex]);
+    carouselIndex = updateIndex("su");
+    updateIndex(carouselIndex);
+});
+
+
+
+ 
+
+
+
+
+
+
+
+
+
+
+
+
+
+// FUNZIONI
+showSlide(images[carouselIndex]);
+
+// creo funzione personalizzata che sostituisce per ogni oggetto
+function showSlide(slideObject) {
+    activeImageElement.src = slideObject.image;
+    slideTitleElement.innerText = slideObject.title;
+    slideDescriptionEl.innerText = slideObject.text;
+}
+
+// funzione che restituisce indice in base alla lunghezza dell'array images
+function updateIndex(actualIndex, direction) {
+    if(direction == "su") {
+        if(actualIndex <= 0) {
+                return images.length - 1;
+            } else {
+                return carouselIndex - 1;
+            }
+    } else {
+        if(actualIndex >= images.length - 1) {
+                return 0;
+            } else {
+                return carouselIndex + 1;
+            }
+    }
+}
