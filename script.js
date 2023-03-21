@@ -72,7 +72,6 @@ arrowDownElement.addEventListener("click", () => {
 
 });
 
-
 arrowDownElement.addEventListener("click", () => {
     // carouselIndex++;
     carouselIndex = updateIndex(carouselIndex, "giu");
@@ -88,6 +87,14 @@ arrowUpElement.addEventListener("click", () => {
     // updateIndex(carouselIndex);
 });
 
+let isAutoPlayOn = true;
+let autoPlayDirection = 'giu';
+let autoplayFunction = setInterval(() => {
+  slideIndex = updateIndex(carouselIndex, autoPlayDirection);
+  showSlide(images, carouselIndex);
+}, 2000);
+
+
 // BOTTONE START/STOP
 startStopButton.addEventListener("click", () => {
     if(isAutoPlayOn) {
@@ -96,13 +103,33 @@ startStopButton.addEventListener("click", () => {
       startStopButton.innerText = "START!";
     } else {
       autoplayFunction = setInterval(() => {
-        slideIndex = updateIndex(slideIndex, autoPlayDirection);
-        showSlide(images, slideIndex);
+            carouselIndex = updateIndex(carouselIndex, autoPlayDirection);
+            showSlide(images, carouselIndex);
       }, 2000);
       isAutoPlayOn = true;
       startStopButton.innerText = "STOP!"
     }
   });
+
+//   BOTTONE REVERSE DIRECTION
+  reverseButton.addEventListener("click", () => {
+    if(autoPlayDirection == "su") {
+        autoPlayDirection = "giu";
+    } else {
+        autoPlayDirection = "su";
+    }
+    clearInterval(autoplayFunction);
+    autoplayFunction = setInterval(() => {
+        carouselIndex = updateIndex(carouselIndex, autoPlayDirection);
+        showSlide(images, carouselIndex);
+    }, 3000);
+    isAutoPlayOn = true;
+    if(!isAutoPlayOn) {
+        startStopButton.innerText = "Start";
+    } else {
+        startStopButton.innerText = "Stop"
+    }
+  } );
 
  
 
