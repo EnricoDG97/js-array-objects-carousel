@@ -8,7 +8,7 @@ body {
     font-family: sans-serif;
 }
 
-#carouselContainer {
+#carousel-container {
     margin: 20px auto;
     max-width: 800px;
     width: 100%;
@@ -16,7 +16,7 @@ body {
 
     display: flex;
     flex-wrap: wrap;
-    position:relative
+    position: relative;
 }
 
 #images-container {
@@ -25,7 +25,14 @@ body {
 }
 
 #thumbnails {
-    width: 100px;
+    width: 150px;
+    display: flex;
+    flex-direction: column;
+    flex-wrap: nowrap;
+    background-color: black;
+    position: absolute;
+    top: 0;
+    right: 0;
 }
 
 #arrow-up, #arrow-down {
@@ -35,11 +42,11 @@ body {
 }
 
 #arrow-up {
-    top: 10%;
+    top: 2%;
 }
 
 #arrow-down {
-    bottom: 10%;
+    bottom: 2%;
 }
 
 #active-image {
@@ -54,4 +61,19 @@ body {
     padding: 15px;
     text-align: right;
     color: white;
+}
+
+.thumbnail {
+    width: 100%;
+    height: 80px;
+    opacity: .5;
+    object-fit: cover;
+}
+
+.thumbnail.active {
+    opacity: 1;
+}
+
+#btn-container {
+    text-align: center;
 }

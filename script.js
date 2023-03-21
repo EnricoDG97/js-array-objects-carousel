@@ -52,25 +52,57 @@ const arrowUpElement = document.getElementById("arrow-up");
 const arrowDownElement = document.getElementById("arrow-down");
 const slideTitleElement = document.getElementById("slide-title");
 const slideDescriptionEl = document.getElementById("slide-description");
+const thumbnailsElement = document.getElementById("thumbnails");
+
+const startStopButton = document.getElementById("start-stop");
+const reverseButton = document.getElementById("reverse-showimage");
 
 let carouselIndex = 0;
 
+createThumbnails(thumbnailsElement, images);
+const thumbnailsArray = document.querySelectorAll('.thumbnail');
+
+showSlide(images, carouselIndex);
+
 arrowDownElement.addEventListener("click", () => {
-    carouselIndex++;
-    showSlide(images[carouselIndex]);
-    carouselIndex = updateIndex("giu");
-    updateIndex(carouselIndex);
+
+    carouselIndex =  updateIndex(carouselIndex, 'giu');
+
+    showSlide(images, carouselIndex);
+
+});
+
+
+arrowDownElement.addEventListener("click", () => {
+    // carouselIndex++;
+    carouselIndex = updateIndex(carouselIndex, "giu");
+    showSlide(images, carouselIndex);
+    // updateIndex(carouselIndex);
 
 });
 
 arrowUpElement.addEventListener("click", () => {
-    carouselIndex--;
-    showSlide(images[carouselIndex]);
-    carouselIndex = updateIndex("su");
-    updateIndex(carouselIndex);
+    // carouselIndex--;
+    carouselIndex = updateIndex(carouselIndex, "su");
+    showSlide(images, carouselIndex);
+    // updateIndex(carouselIndex);
 });
 
-
+// BOTTONE START/STOP
+startStopButton.addEventListener("click", () => {
+    if(isAutoPlayOn) {
+      clearInterval(autoplayFunction);
+      isAutoPlayOn = false;
+      startStopButton.innerText = "START!";
+    } else {
+      autoplayFunction = setInterval(() => {
+        slideIndex = updateIndex(slideIndex, autoPlayDirection);
+        showSlide(images, slideIndex);
+      }, 2000);
+      isAutoPlayOn = true;
+      startStopButton.innerText = "STOP!"
+    }
+  });
 
  
 
@@ -87,16 +119,21 @@ arrowUpElement.addEventListener("click", () => {
 
 
 // FUNZIONI
-showSlide(images[carouselIndex]);
 
-// creo funzione personalizzata che sostituisce per ogni oggetto
-function showSlide(slideObject) {
+// FUNZIONE MOSTRA IMMAGINE personalizzata che sostituisce per ogni oggetto
+function showSlide(slideArray, actualIndex) {
+    const slideObject = slideArray[actualIndex];
+    console.log(slideObject);
     activeImageElement.src = slideObject.image;
     slideTitleElement.innerText = slideObject.title;
     slideDescriptionEl.innerText = slideObject.text;
+    thumbnailsArray.forEach((actualThumbnail) => {
+        actualThumbnail.classList.remove('active');
+    })
+    thumbnailsArray[actualIndex].classList.add('active');
 }
 
-// funzione che restituisce indice in base alla lunghezza dell'array images
+// FUNZIONE INDICE che restituisce indice in base alla lunghezza dell'array images
 function updateIndex(actualIndex, direction) {
     if(direction == "su") {
         if(actualIndex <= 0) {
@@ -111,4 +148,18 @@ function updateIndex(actualIndex, direction) {
                 return carouselIndex + 1;
             }
     }
+}
+
+// FUNZIONE DI CREAZIONE THUMBNAILS
+function createThumbnails(thumbnailsContainer, arraySlides) {
+    arraySlides.forEach((actualSlide, actualIndex) => {
+        const newThumbnail = document.createElement("img");
+        newThumbnail.classList.add("thumbnail");
+        newThumbnail.src = actualSlide.image;
+        newThumbnail.addEventListener("click", function() {
+            slideIndex = actualIndex;
+            showSlide(arraySlides, actualIndex);
+        });
+        thumbnailsContainer.append(newThumbnail);
+    });
 }
